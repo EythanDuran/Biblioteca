@@ -1,11 +1,15 @@
 package edu.uaslp.library;
+import edu.uaslp.library.model.Empleado;
 import edu.uaslp.library.model.Libro;
+import edu.uaslp.library.model.Prestamo;
 import edu.uaslp.library.model.Usuario;
 import edu.uaslp.library.service.AdministradorDeLibro;
+import edu.uaslp.library.service.AdministradorDePrestamo;
 import edu.uaslp.library.service.AdministradorDeUsuario;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.time.LocalDateTime;
 import javax.swing.*;
 
 public class AppWindow {
@@ -15,9 +19,11 @@ public class AppWindow {
     private JLabel bookNameLabel;
     private AdministradorDeUsuario AdminU =new AdministradorDeUsuario();
     private AdministradorDeLibro AdminL=new AdministradorDeLibro();
-    private JTextField studentKey;
+    private JTextField userKey;
     private  JTextField bookKey;
     private  DefaultListModel<String>modelLibro=new DefaultListModel<>();
+    private Prestamo prestamoActual=new Prestamo();
+
 
     public void show() {
         JFrame frame = new JFrame("JFrame Example");
@@ -130,13 +136,13 @@ public class AppWindow {
         constraints.weightx = 1;
         firstRow.add(label, constraints);
 
-        studentKey = new JTextField();
+        userKey = new JTextField();
         constraints.gridx = 1;
-        firstRow.add(studentKey, constraints);
+        firstRow.add(userKey, constraints);
 
         JButton buttonQuery = new JButton("Consultar");
         constraints.gridx = 2;
-        buttonQuery.addActionListener(this::queryStudent);
+        buttonQuery.addActionListener(this::queryUser);
         firstRow.add(buttonQuery, constraints);
 
         JPanel secondRow = new JPanel();
@@ -159,12 +165,14 @@ public class AppWindow {
         panel.add(secondRow, constraints);
     }
 
-    private void queryStudent(ActionEvent event) {
-        String clave=studentKey.getText();
+    private void queryUser(ActionEvent event) {
+        String clave= userKey.getText();
         Usuario usuario;
         usuario=AdminU.dameUsuarioxClave(clave);
 
         studentNameLabel.setText(usuario.getName());
+
+        prestamoActual.setUsuario(usuario);
     }
 
     private void addBookToLoan(ActionEvent event) {
@@ -177,11 +185,22 @@ public class AppWindow {
         String clave=bookKey.getText();
         Libro libro = AdminL.dameLibroxClave(clave);
         bookNameLabel.setText(libro.getTitle());
+        prestamoActual.addLibros(libro);
     }
 
     private void performLoan(ActionEvent event) {
         int n=modelLibro.size();
         String NombreUsuario=studentNameLabel.getText();
+
+        AdministradorDePrestamo administradorDePrestamo=new AdministradorDePrestamo();
+        Empleado empleado=new Empleado();
+        empleado.setClave("123");
+        empleado.setName("franf");
+
+        prestamoActual.setEmpleado(empleado);
+        prestamoActual.setFechahora(LocalDateTime.now());
+
+        administradorDePrestamo.registraPrestamo(prestamoActual);
 
         JOptionPane.showMessageDialog(null, "Se prestaron "+n+" libros al usuario: "+NombreUsuario);
     }

@@ -1,42 +1,44 @@
 package edu.uaslp.library.model;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 
 public class Prestamo {
     private LocalDateTime fechahora;
     private Usuario usuario;
-    private Libro[] libros;
+    private LinkedList<Libro> libros=new LinkedList<>();
     private Empleado empleado;
 
-    public LocalDateTime getFechahora() {
-        return fechahora;
-    }
-
     public void setFechahora(LocalDateTime fechahora) {
-        this.fechahora = fechahora;
-    }
 
-    public Usuario getUsuario() {
-        return usuario;
+        this.fechahora = fechahora;
     }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 
-    public Libro[] getLibros() {
-        return libros;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setLibros(Libro[] libros) {
-        this.libros = libros;
+    public void addLibros(Libro libro) {
+        libros.add(libro);
     }
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
+    public LocalDateTime getFechahora() {
+        return fechahora;
+    }
+
+    public LinkedList<Libro> getLibros(){
+     return libros;
+    }
+
 
     public Empleado getEmpleado() {
         return empleado;
-    }
-
-    public void setEmpleado(Empleado empleado) {
-        this.empleado = empleado;
     }
 }

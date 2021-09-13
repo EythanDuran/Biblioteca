@@ -1,3 +1,12 @@
 out/
 .idea/
 *.iml
+/Fecha
+/Libro
+/Empleado
+/Prestamo
+/Usuario
+/AdministradorDeLibro
+/AdministradorDePrestamo
+/AdministradorDeUsuario
+/AppWindow
